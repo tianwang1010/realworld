@@ -78,7 +78,7 @@
                   >{{ article.author.username }}</nuxt-link
                 >
                 <span class="date">{{
-                  article.createdAt | date('MMM DD, YYYY')
+                  article.createdAt | date("MMM DD, YYYY")
                 }}</span>
               </div>
               <!-- 添加到个人收藏（需要登录） -->
