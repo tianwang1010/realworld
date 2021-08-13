@@ -17,7 +17,7 @@
               :disabled="followChecked"
             >
               <i class="ion-plus-round"></i>
-              &nbsp;{{ !profile.following ? "Follow" : "unFollow" }}
+              &nbsp;{{ !profile.following ? 'Follow' : 'unFollow' }}
               {{ profile.username }}
             </button>
           </div>
@@ -89,12 +89,14 @@
                   >{{ article.author.username }}</nuxt-link
                 >
                 <span class="date">{{
-                  article.createdAt | date("MMM DD, YYYY")
+                  article.createdAt | date('MMM DD, YYYY')
                 }}</span>
               </div>
-              <button class="btn btn-outline-primary btn-sm pull-xs-right"
+              <button
+                class="btn btn-outline-primary btn-sm pull-xs-right"
                 :class="'active' ? article.favorited : ''"
-               @click="addFavorite(article)">
+                @click="addFavorite(article)"
+              >
                 <i class="ion-heart"></i> {{ article.favoritesCount }}
               </button>
             </div>
@@ -139,34 +141,36 @@
 </template>
 
 <script>
-import { getProfile, addFollow, deleteFollow } from "@/api/user";
-import { mapState } from "vuex";
-import { getArticles, addFavorite, deleteFavorite } from "@/api/article";
+import { getProfile, addFollow, deleteFollow } from '@/api/user'
+import { mapState } from 'vuex'
+import { getArticles, addFavorite, deleteFavorite } from '@/api/article'
 export default {
-  middleware: "authenticated",
-  name: "profile",
-  async asyncData({ params, query }) {
-    const path = `/profile/${params.username}`;
+  middleware: 'authenticated',
+  name: 'profile',
+  async asyncData ({ params, query }) {
+    const path = `/profile/${params.username}`
     // 获取到用户主页的信息
-    const { data } = await getProfile(params.username);
+    const { data } = await getProfile(params.username)
     // 获取当前页数
-    const page = Number.parseInt(query.page || 1);
+    const page = Number.parseInt(query.page || 1)
     // 每页显示条数
-    const limit = 1;
-    const tab = query.tab || "my_articles";
+    const limit = 1
+    const tab = query.tab || 'my_articles'
     const options = {
       limit,
-      offset: (page - 1) * limit,
-    };
-    if (tab === "my_articles") {
-      options.author = params.username;
+      offset: (page - 1) * limit
+    }
+    if (tab === 'my_articles') {
+      options.author = params.username
     } else {
-      options.favorited = params.username;
+      options.favorited = params.username
     }
     // 获取用户自己的文章
-    const { data: articleData } = await getArticles(options);
-    const { articles, articlesCount } = articleData;
-    articles.forEach(art => art.favoriteDisabled = false)
+    const { data: articleData } = await getArticles(options)
+    const { articles, articlesCount } = articleData
+    articles.forEach((art) => {
+      art.favoriteDisabled = false
+    })
     return {
       profile: data.profile,
       followChecked: false,
@@ -175,25 +179,25 @@ export default {
       path,
       tab,
       limit,
-      page,
-    };
+      page
+    }
   },
   methods: {
-    async follow() {
-      if(!this.auth){
+    async follow () {
+      if (!this.auth) {
         this.$router.push('/login')
         return
       }
-      this.followChecked = true;
-      const { data } = !this.profile.following
+      this.followChecked = true
+      !this.profile.following
         ? await addFollow(this.profile.username)
-        : await deleteFollow(this.profile.username);
-      this.profile.following = !this.profile.following;
-      this.followChecked = false;
+        : await deleteFollow(this.profile.username)
+      this.profile.following = !this.profile.following
+      this.followChecked = false
     },
-    async addFavorite(article){
+    async addFavorite (article) {
       // 点赞文章的时候要判断用户是否登录
-      if(!this.auth){
+      if (!this.auth) {
         this.$router.push('/login')
         return
       }
@@ -213,14 +217,13 @@ export default {
     }
   },
   computed: {
-    ...mapState(["auth"]),
-    totalPage() {
-      return Math.ceil(this.articlesCount / this.limit);
-    },
+    ...mapState(['auth']),
+    totalPage () {
+      return Math.ceil(this.articlesCount / this.limit)
+    }
   },
-  watchQuery: ["page", "tab"],
-};
+  watchQuery: ['page', 'tab']
+}
 </script>
 
-<style>
-</style>
+<style></style>

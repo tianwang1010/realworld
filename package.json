@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint ./**/*.{js,vue} --fix",
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start"
@@ -18,5 +19,14 @@
     "js-cookie": "^3.0.0",
     "markdown-it": "^12.2.0",
     "nuxt": "^2.15.7"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.24.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-standard": "^5.0.0",
+    "eslint-plugin-vue": "^7.16.0"
   }
 }

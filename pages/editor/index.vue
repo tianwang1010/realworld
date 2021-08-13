@@ -60,57 +60,57 @@
 </template>
 
 <script>
-import { createArticle, updateArticle, getArticleDetail } from "@/api/article";
+import { createArticle, updateArticle, getArticleDetail } from '@/api/article'
 export default {
-  middleware: "authenticated",
-  name: "edit",
-  data() {
+  middleware: 'authenticated',
+  name: 'edit',
+  data () {
     return {
-      slug: "",
+      slug: '',
       publishChecked: false,
-      tagList: "",
+      tagList: '',
       article: {
-        title: "",
-        description: "",
-        body: "",
-        tagList: [],
-      },
-    };
+        title: '',
+        description: '',
+        body: '',
+        tagList: []
+      }
+    }
   },
-  mounted() {
-    this.slug = this.$route.query?.slug || "";
-    this.getArticle(this.slug);
+  mounted () {
+    this.slug = this.$route.query?.slug || ''
+    this.getArticle(this.slug)
   },
   watchQuery: ['slug'],
   methods: {
-    async getArticle(slug) {
-      if (!slug) return;
-      const { data } = await getArticleDetail(slug);
-      this.article = data.article;
-      this.tagList = data.article.tagList.join("，")
+    async getArticle (slug) {
+      if (!slug) return
+      const { data } = await getArticleDetail(slug)
+      this.article = data.article
+      this.tagList = data.article.tagList.join('，')
     },
-    async publishArticle() {
-      this.publishChecked = true;
-      this.article.tagList = this.tagList.split("，");
+    async publishArticle () {
+      this.publishChecked = true
+      this.article.tagList = this.tagList.split('，')
 
       const { data } = this.slug
         ? await updateArticle(this.slug, {
-            article: this.article,
-          })
+          article: this.article
+        })
         : await createArticle({
-            article: this.article,
-          });
-      this.publishChecked = false;
+          article: this.article
+        })
+      this.publishChecked = false
 
       this.$router.push({
-        name: "article",
+        name: 'article',
         params: {
-          slug: data.article.slug,
-        },
-      });
-    },
-  },
-};
+          slug: data.article.slug
+        }
+      })
+    }
+  }
+}
 </script>
 
 <style>

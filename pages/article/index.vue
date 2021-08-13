@@ -29,26 +29,26 @@
 </template>
 
 <script>
-import { getArticleDetail } from "@/api/article";
-import MarkdownIt from "markdown-it";
-import articleMeta from "./components/article-meta.vue";
+import { getArticleDetail } from '@/api/article'
+import MarkdownIt from 'markdown-it'
+import articleMeta from './components/article-meta.vue'
 import articleComments from './components/article-comments.vue'
 export default {
-  name: "articlePage",
-  async asyncData({ params }) {
-    const { data } = await getArticleDetail(params.slug);
-    const md = new MarkdownIt();
-    const { article } = data;
-    article.body = md.render(article.body);
+  name: 'articlePage',
+  async asyncData ({ params }) {
+    const { data } = await getArticleDetail(params.slug)
+    const md = new MarkdownIt()
+    const { article } = data
+    article.body = md.render(article.body)
     return {
       article
-    };
+    }
   },
   components: {
     articleMeta,
     articleComments
   },
-  head() {
+  head () {
     return {
       title: `${this.article.title} - RealWorld`,
       meta: [
@@ -60,7 +60,7 @@ export default {
       ]
     }
   }
-};
+}
 </script>
 
 <style>

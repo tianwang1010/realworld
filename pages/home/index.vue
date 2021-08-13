@@ -23,7 +23,7 @@
                     },
                   }"
                   class="nav-link"
-                  :class="{ 'active': tab === 'your_feed' }"
+                  :class="{ active: tab === 'your_feed' }"
                   >Your Feed</router-link
                 >
               </li>
@@ -38,19 +38,19 @@
                     },
                   }"
                   class="nav-link"
-                  :class="{ 'active': tab === 'global_feed' }"
+                  :class="{ active: tab === 'global_feed' }"
                   >Global Feed</router-link
                 >
               </li>
               <!-- 标签筛选 -->
               <li class="nav-item" v-if="tag">
                 <router-link
-                    :to="{
+                  :to="{
                     name: 'home',
-                    query: {tag: tag, tab:'tag' },
+                    query: { tag: tag, tab: 'tag' },
                   }"
                   class="nav-link"
-                  :class="{ 'active': tab === 'tag' }"
+                  :class="{ active: tab === 'tag' }"
                   >#{{ tag }}</router-link
                 >
               </li>
@@ -77,7 +77,9 @@
                   :to="`/profile/${article.author.username}`"
                   >{{ article.author.username }}</nuxt-link
                 >
-                <span class="date">{{ article.createdAt | date('MMM DD, YYYY') }}</span>
+                <span class="date">{{
+                  article.createdAt | date('MMM DD, YYYY')
+                }}</span>
               </div>
               <!-- 添加到个人收藏（需要登录） -->
               <button
@@ -109,7 +111,10 @@
                     params: {
                       slug: article.slug,
                     },
-                  })">Read more...</span>
+                  })
+                "
+                >Read more...</span
+              >
             </nuxt-link>
           </div>
 
@@ -126,7 +131,7 @@
                   class="page-link"
                   :to="{
                     name: 'home',
-                    query: { page: item, tag: $route.query.tag, tab:tab },
+                    query: { page: item, tag: $route.query.tag, tab: tab },
                   }"
                   >{{ item }}</nuxt-link
                 >
@@ -145,7 +150,7 @@
                   name: 'home',
                   query: {
                     tag: tag,
-                    tab: 'tab'
+                    tab: 'tab',
                   },
                 }"
                 class="tag-pill tag-default"
@@ -163,31 +168,37 @@
 </template>
 
 <script>
-import { getArticles, getFeedArticles, addFavorite, deleteFavorite } from "@/api/article";
-import { getTags } from "@/api/tag";
-import { mapState } from "vuex";
+import {
+  getArticles,
+  getFeedArticles,
+  addFavorite,
+  deleteFavorite
+} from '@/api/article'
+import { getTags } from '@/api/tag'
+import { mapState } from 'vuex'
 export default {
-  name: "home",
-  async asyncData({ query, store }) {
-    const page = Number.parseInt(query.page || 1);
-    const limit = 20;
-    const { tag } = query;
-    const tab =  query.tab || 'global_feed'
-    const LoadArticles = store.state.auth && tab === 'your_feed' 
-    ? getFeedArticles
-    : getArticles
+  name: 'home',
+  async asyncData ({ query, store }) {
+    const page = Number.parseInt(query.page || 1)
+    const limit = 20
+    const { tag } = query
+    const tab = query.tab || 'global_feed'
+    const LoadArticles =
+      store.state.auth && tab === 'your_feed' ? getFeedArticles : getArticles
     const [articleRes, tagRes] = await Promise.all([
       LoadArticles({
         limit,
         offset: (page - 1) * limit,
-        tag,
+        tag
       }),
-      getTags(),
-    ]);
+      getTags()
+    ])
 
-    const { articles, articlesCount } = articleRes.data;
-    const { tags } = tagRes.data;
-    articles.forEach(art => art.favoriteDisabled = false)
+    const { articles, articlesCount } = articleRes.data
+    const { tags } = tagRes.data
+    articles.forEach((art) => {
+      art.favoriteDisabled = false
+    })
     return {
       articles,
       articlesCount,
@@ -196,19 +207,19 @@ export default {
       page,
       tag,
       tab
-    };
+    }
   },
-  watchQuery: ["page", "tag", "tab"],
+  watchQuery: ['page', 'tag', 'tab'],
   computed: {
-    ...mapState(["auth"]),
-    totalPage() {
-      return Math.ceil(this.articlesCount / this.limit);
-    },
+    ...mapState(['auth']),
+    totalPage () {
+      return Math.ceil(this.articlesCount / this.limit)
+    }
   },
   methods: {
-    async addFavorite(article){
+    async addFavorite (article) {
       // 点赞文章的时候要判断用户是否登录
-      if(!this.auth){
+      if (!this.auth) {
         this.$router.push('/login')
         return
       }
@@ -227,7 +238,7 @@ export default {
       article.favoriteDisabled = false
     }
   }
-};
+}
 </script>
 
 <style>

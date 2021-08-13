@@ -67,34 +67,34 @@
 </template>
 
 <script>
-import { getUser, updateUser } from "@/api/user";
-const Cookie = process.client ? require("js-cookie") : undefined;
+import { getUser, updateUser } from '@/api/user'
+const Cookie = process.client ? require('js-cookie') : undefined
 export default {
-  name: "settings",
-  async asyncData() {
-    const { data } = await getUser();
-    data.checked = false;
-    return data;
+  name: 'settings',
+  async asyncData () {
+    const { data } = await getUser()
+    data.checked = false
+    return data
   },
   methods: {
-    async updateInfo() {
-      this.checked = true;
+    async updateInfo () {
+      this.checked = true
       const { data } = await updateUser({
-        user: this.user,
-      });
-      this.checked = false;
-      this.$store.commit("setAuth", data.user);
-      Cookie.set("auth", JSON.stringify(data.user));
+        user: this.user
+      })
+      this.checked = false
+      this.$store.commit('setAuth', data.user)
+      Cookie.set('auth', JSON.stringify(data.user))
       const { username } = data.user
-      this.$router.push(`/profile/${username}`);
+      this.$router.push(`/profile/${username}`)
     },
-    loginOut() {
-      this.$store.commit("setAuth", null);
-      Cookie.remove("auth");
-      this.$router.push("/login");
-    },
-  },
-};
+    loginOut () {
+      this.$store.commit('setAuth', null)
+      Cookie.remove('auth')
+      this.$router.push('/login')
+    }
+  }
+}
 </script>
 
 <style>

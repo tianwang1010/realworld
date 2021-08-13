@@ -57,50 +57,52 @@
 </template>
 
 <script>
-import { login, register } from "@/api/user";
+import { login, register } from '@/api/user'
 // 仅在客户端加载这个包
 const Cookie = process.client ? require('js-cookie') : undefined
 export default {
   middleware: 'not-authenticated',
-  name: "loginPage",
-  data() {
+  name: 'loginPage',
+  data () {
     return {
       user: {
         username: '',
-        email: "",
-        password: "",
-      },  
-      errors: {
+        email: '',
+        password: ''
       },
-    };
+      errors: {
+      }
+    }
   },
   computed: {
-    isLogin() {
-      return this.$route.name === "login";
-    },
+    isLogin () {
+      return this.$route.name === 'login'
+    }
   },
   methods: {
     // 提交登录请求
-    async onSubmit() {
+    async onSubmit () {
       try {
         // 提交表单登录
-        const { data } = this.isLogin ?  await login({
-          user: this.user,
-        }) : await register({
-          user: this.user
-        });
+        const { data } = this.isLogin
+          ? await login({
+            user: this.user
+          })
+          : await register({
+            user: this.user
+          })
         // 保存用户的登录状态
         this.$store.commit('setAuth', data.user)
         // 为了防止刷新页面数据丢失 我们需要把数据持久化
-         Cookie.set('auth', JSON.stringify(data.user))
+        Cookie.set('auth', JSON.stringify(data.user))
         // 跳转到首页
         this.$router.push('/')
       } catch (error) {
-        this.errors = error.response.data;
+        this.errors = error.response.data
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style>

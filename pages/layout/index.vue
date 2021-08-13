@@ -10,18 +10,19 @@
           </li>
           <template v-if="auth">
             <li class="nav-item">
-              <nuxt-link class="nav-link" to="/editor"><i class="ion-compose"></i>&nbsp;New Post</nuxt-link>
+              <nuxt-link class="nav-link" to="/editor"
+                ><i class="ion-compose"></i>&nbsp;New Post</nuxt-link
+              >
             </li>
             <li class="nav-item">
-              <nuxt-link class="nav-link" to="/settings"><i class="ion-gear-a"></i>&nbsp;Settings</nuxt-link>
+              <nuxt-link class="nav-link" to="/settings"
+                ><i class="ion-gear-a"></i>&nbsp;Settings</nuxt-link
+              >
             </li>
             <li class="nav-item">
               <nuxt-link class="nav-link" :to="'/profile/' + auth.username">
-                <img
-                  class="user-pic"
-                  :src="auth.image"
-                />
-                {{auth.username}}
+                <img class="user-pic" :src="auth.image" />
+                {{ auth.username }}
               </nuxt-link>
             </li>
           </template>
@@ -55,13 +56,12 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 export default {
   computed: {
-    ...mapState(["auth"]),
-  },
-};
+    ...mapState(['auth'])
+  }
+}
 </script>
 
-<style>
-</style>
+<style></style>

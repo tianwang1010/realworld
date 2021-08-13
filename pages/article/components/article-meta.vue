@@ -57,43 +57,44 @@
 </template>
 
 <script>
-import { addFollow, deleteFollow } from "@/api/user";
-import { deleteArticle, addFavorite, deleteFavorite, } from "@/api/article";
+import { addFollow, deleteFollow } from '@/api/user'
+import { deleteArticle, addFavorite, deleteFavorite } from '@/api/article'
 import { mapState } from 'vuex'
 export default {
-  name: "articleMeta",
+  name: 'articleMeta',
   props: {
     article: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
-  data(){
+  data () {
     return {
-      followChecked:false
+      followChecked: false
     }
   },
   methods: {
-    async deleteArticle(slug) {
-      await deleteArticle(slug);
+    async deleteArticle (slug) {
+      await deleteArticle(slug)
       this.$router.push('/')
     },
-    async follow() {
-      if(!this.$store.state.auth){
+    async follow () {
+      if (!this.$store.state.auth) {
         this.$router.push('/login')
         return
       }
-      this.followChecked = true;
-      const { following, username} = this.article.author
-      const { data } = !following
+      this.followChecked = true
+      const { following, username } = this.article.author
+      !following
         ? await addFollow(username)
-        : await deleteFollow(username);
-      this.article.author.following = !this.article.author.following;
-      this.followChecked = false;
+        : await deleteFollow(username)
+      const author = this.article.author.following
+      author.following = !author.following
+      this.followChecked = false
     },
-    async addFavorite(article){
+    async addFavorite (article) {
       // 点赞文章的时候要判断用户是否登录
-      if(!this.auth){
+      if (!this.auth) {
         this.$router.push('/login')
         return
       }
@@ -114,11 +115,11 @@ export default {
   },
   computed: {
     ...mapState(['auth']),
-    isAuth(){
-    return this.article.author.username === this.auth?.username
+    isAuth () {
+      return this.article.author.username === this.auth?.username
     }
-  },
-};
+  }
+}
 </script>
 
 <style>

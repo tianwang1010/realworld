@@ -2,20 +2,20 @@ import { request } from '@/plugins/request'
 
 // 获取公共文章列表
 export const getArticles = params => {
-    return request({
-        method: 'GET',
-        url: `/api/articles`,
-        params
-    })
+  return request({
+    method: 'GET',
+    url: '/api/articles',
+    params
+  })
 }
 
 // 获取公共文章列表
 export const getFeedArticles = params => {
-    return request({
-        method: 'GET',
-        url: `/api/articles/feed`,
-        params
-    })
+  return request({
+    method: 'GET',
+    url: '/api/articles/feed',
+    params
+  })
 }
 
 // 添加点赞
@@ -36,14 +36,14 @@ export const deleteFavorite = slug => {
 
 // 获取文章详情
 export const getArticleDetail = slug => {
-    return request({
-      method: 'GET',
-      url: `/api/articles/${slug}`
-    })
-  }
+  return request({
+    method: 'GET',
+    url: `/api/articles/${slug}`
+  })
+}
 
 // 添加评论
-export const addComments  = (slug, data) => {
+export const addComments = (slug, data) => {
   return request({
     method: 'POST',
     url: `/api/articles/${slug}/comments`,
@@ -64,7 +64,7 @@ export const createArticle = data => {
 export const updateArticle = (slug, data) => {
   return request({
     method: 'PUT',
-    url: `api/articles/${ slug }`,
+    url: `api/articles/${slug}`,
     data
   })
 }
@@ -73,7 +73,7 @@ export const updateArticle = (slug, data) => {
 export const deleteArticle = slug => {
   return request({
     method: 'DELETE',
-    url: `api/articles/${ slug }`
+    url: `api/articles/${slug}`
   })
 }
 
@@ -101,4 +101,3 @@ export const deleteComment = (slug, id) => {
     url: `api/articles/${slug}/comments/${id}`
   })
 }
-

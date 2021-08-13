@@ -53,7 +53,7 @@
           <span class="date-posted">{{
             comment.createdAt | date("MMMM DD, YYYY")
           }}</span>
-          
+
         </div>
       </div>
     </div>
@@ -61,49 +61,49 @@
 </template>
 
 <script>
-import { getComments, addComments } from "@/api/article";
-import { mapState } from "vuex";
+import { getComments, addComments } from '@/api/article'
+import { mapState } from 'vuex'
 export default {
-  name: "article-comments",
+  name: 'article-comments',
   props: {
     article: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
-  data() {
+  data () {
     return {
       comments: [], // 文章列表
-      comment: "", // 新增评论
-    };
+      comment: '' // 新增评论
+    }
   },
   computed: {
-    ...mapState(["auth"]),
+    ...mapState(['auth'])
   },
   methods: {
     // 发表评论
-    async postComment() {
+    async postComment () {
       // 如果用户未登录当用户去登录
       if (!this.auth) {
         // 登录后返回当前页面
-        this.$router.push("/login");
+        this.$router.push('/login')
       } else {
         const params = {
           comment: {
-            body: this.comment,
-          },
-        };
-        const { data } = await addComments(this.article.slug, params);
+            body: this.comment
+          }
+        }
+        await addComments(this.article.slug, params)
       }
-    },
+    }
   },
   // 评论不需要SEO
   // 客户端加载
-  async mounted() {
-    const { data } = await getComments(this.article.slug);
-    this.comments = data.comments;
-  },
-};
+  async mounted () {
+    const { data } = await getComments(this.article.slug)
+    this.comments = data.comments
+  }
+}
 </script>
 
 <style>
