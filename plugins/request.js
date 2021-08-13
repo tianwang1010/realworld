@@ -3,7 +3,7 @@ import axios from 'axios'
 
 export const request = axios.create({
     baseURL: 'http://realworld.api.fed.lagounews.com/'
-    // baseURL: 'https://conduit.productionready.io/api'
+    // baseURL: 'https://conduit.productionready.io/'
 })
 
 export default ({store}) => {
@@ -19,12 +19,12 @@ export default ({store}) => {
         return Promise.reject(error);
     });
 
-    request.interceptors.response.use(function (response) {
-        return response;
-    }, function (error) {
+    // request.interceptors.response.use(function (response) {
+    //     return response;
+    // }, function (error) {
 
-        return Promise.reject(error);
-    });
+    //     return Promise.reject(error);
+    // });
 
 }
 

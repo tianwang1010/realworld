@@ -2,8 +2,8 @@
   <div class="home-page">
     <div class="banner">
       <div class="container">
-        <h1 class="logo-font">conduit-tw</h1>
-        <p>A place to share your knowledge.</p>
+        <h1 class="logo-font">conduit</h1>
+        <p>一个分享知识的地方.</p>
       </div>
     </div>
 
@@ -12,6 +12,7 @@
         <div class="col-md-9">
           <div class="feed-toggle">
             <ul class="nav nav-pills outline-active">
+              <!-- 个人收藏（登录） -->
               <li class="nav-item" v-if="auth">
                 <router-link
                   exact
@@ -26,6 +27,7 @@
                   >Your Feed</router-link
                 >
               </li>
+              <!-- 公共列表 -->
               <li class="nav-item">
                 <router-link
                   exact
@@ -40,6 +42,7 @@
                   >Global Feed</router-link
                 >
               </li>
+              <!-- 标签筛选 -->
               <li class="nav-item" v-if="tag">
                 <router-link
                     :to="{
@@ -60,13 +63,15 @@
             :key="index"
           >
             <div class="article-meta">
+              <!-- 访问文章作者 -->
               <nuxt-link
                 class="author"
                 :to="`/profile/${article.author.username}`"
               >
-                <img src="http://i.imgur.com/Qr71crq.jpg"
+                <img :src="article.author.image"
               /></nuxt-link>
               <div class="info">
+                <!-- 访问文章作者 -->
                 <nuxt-link
                   class="author"
                   :to="`/profile/${article.author.username}`"
@@ -74,6 +79,7 @@
                 >
                 <span class="date">{{ article.createdAt | date('MMM DD, YYYY') }}</span>
               </div>
+              <!-- 添加到个人收藏（需要登录） -->
               <button
                 class="btn btn-outline-primary btn-sm pull-xs-right"
                 :class="{ active: article.favorited }"
@@ -83,6 +89,7 @@
                 <i class="ion-heart"></i> {{ article.favoritesCount }}
               </button>
             </div>
+            <!-- 文章详情 -->
             <nuxt-link
               :to="{
                 name: 'article',
@@ -94,6 +101,7 @@
             >
               <h1>{{ article.title }}</h1>
               <p>{{ article.description }}</p>
+              <!-- 文章详情 -->
               <span
                 @click="
                   $router.push({
@@ -101,10 +109,7 @@
                     params: {
                       slug: article.slug,
                     },
-                  })
-                "
-                >Read more...</span
-              >
+                  })">Read more...</span>
             </nuxt-link>
           </div>
 
@@ -202,6 +207,11 @@ export default {
   },
   methods: {
     async addFavorite(article){
+      // 点赞文章的时候要判断用户是否登录
+      if(!this.auth){
+        this.$router.push('/login')
+        return
+      }
       article.favoriteDisabled = true
       if (article.favorited) {
         // 取消点赞

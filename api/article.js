@@ -42,18 +42,63 @@ export const getArticleDetail = slug => {
     })
   }
 
-// 创建文章
-export const createArticle = slug => {
-    return request({
-      method: 'POST',
-      url: `/api/articles/${slug}`
-    })
-  }
+// 添加评论
+export const addComments  = (slug, data) => {
+  return request({
+    method: 'POST',
+    url: `/api/articles/${slug}/comments`,
+    data
+  })
+}
 
-// 获取评论
+// 创建文章
+export const createArticle = data => {
+  return request({
+    method: 'POST',
+    url: 'api/articles',
+    data
+  })
+}
+
+// 更新文章
+export const updateArticle = (slug, data) => {
+  return request({
+    method: 'PUT',
+    url: `api/articles/${ slug }`,
+    data
+  })
+}
+
+// 删除文章
+export const deleteArticle = slug => {
+  return request({
+    method: 'DELETE',
+    url: `api/articles/${ slug }`
+  })
+}
+
+// 获取文章评论
 export const getComments = slug => {
   return request({
     method: 'GET',
     url: `/api/articles/${slug}/comments`
   })
 }
+
+// 添加文章评论
+export const addComment = (slug, data) => {
+  return request({
+    method: 'POST',
+    url: `api/articles/${slug}/comments`,
+    data
+  })
+}
+
+// 删除文章评论
+export const deleteComment = (slug, id) => {
+  return request({
+    method: 'DELETE',
+    url: `api/articles/${slug}/comments/${id}`
+  })
+}
+
