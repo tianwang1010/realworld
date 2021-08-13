@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint ./**/*.{js,vue} --fix",
-    "pre-commit": "eslint src",
+    "pre-commit": "eslint ./**/*.{js,vue}",
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start"
