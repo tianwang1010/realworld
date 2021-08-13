@@ -58,7 +58,8 @@
 
 <script>
 import { addFollow, deleteFollow } from "@/api/user";
-import { deleteArticle } from "@/api/article";
+import { deleteArticle, addFavorite, deleteFavorite, } from "@/api/article";
+import { mapState } from 'vuex'
 export default {
   name: "articleMeta",
   props: {
@@ -69,12 +70,13 @@ export default {
   },
   data(){
     return {
-      followChecked:false,
+      followChecked:false
     }
   },
   methods: {
     async deleteArticle(slug) {
-      const { data } = await deleteArticle(slug);
+      await deleteArticle(slug);
+      this.$router.push('/')
     },
     async follow() {
       if(!this.$store.state.auth){
@@ -89,9 +91,9 @@ export default {
       this.article.author.following = !this.article.author.following;
       this.followChecked = false;
     },
-     async addFavorite(article){
+    async addFavorite(article){
       // 点赞文章的时候要判断用户是否登录
-      if(!this.$store.state.auth){
+      if(!this.auth){
         this.$router.push('/login')
         return
       }
@@ -111,9 +113,10 @@ export default {
     }
   },
   computed: {
-    isAuth() {
-      return this.article.author.username === this.$store.state.auth.username;
-    },
+    ...mapState(['auth']),
+    isAuth(){
+    return this.article.author.username === this.auth?.username
+    }
   },
 };
 </script>

@@ -10,8 +10,8 @@
                   type="text"
                   class="form-control form-control-lg"
                   placeholder="文章主题"
-                  required
                   v-model="article.title"
+                  required
                   :disabled="publishChecked"
                 />
               </fieldset>
@@ -37,7 +37,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="输入标签,多个逗号隔开"
+                  placeholder="输入标签,多个中文逗号隔开"
                   v-model="tagList"
                   :disabled="publishChecked"
                 />
@@ -87,11 +87,11 @@ export default {
       if (!slug) return;
       const { data } = await getArticleDetail(slug);
       this.article = data.article;
-      this.tagList = data.article.tagList.join(",")
+      this.tagList = data.article.tagList.join("，")
     },
     async publishArticle() {
       this.publishChecked = true;
-      this.article.tagList = this.tagList.split(",");
+      this.article.tagList = this.tagList.split("，");
 
       const { data } = this.slug
         ? await updateArticle(this.slug, {
