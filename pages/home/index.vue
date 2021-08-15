@@ -158,9 +158,6 @@
                 :key="index"
               >
                 {{ tag }}
-                
-
-
               </nuxt-link>
             </div>
           </div>
